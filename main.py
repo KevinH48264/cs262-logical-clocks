@@ -8,25 +8,28 @@ from threading import Thread
 import random
  
 # server, receives messages
-def server(conn):
+def server(conn, network_queue):
     print("server accepted connection" + str(conn)+"\n")
-    network_queue=[]
     sleepVal = 0.900
 
-
     while True: 
-        time.sleep(sleepVal) 
-        data = conn.recv(1024) 
-        print("msg received\n") 
-        dataVal = data.decode('ascii') 
-        print("msg received:", dataVal) 
+        try:
+            time.sleep(sleepVal) 
+            data = conn.recv(1024) 
+            print("msg received\n") 
+            dataVal = data.decode('ascii') 
+            print("msg received:", dataVal) 
 
-        # hold incoming messages from the client connection
-        network_queue.append(dataVal)
+            # hold incoming messages from the client connection
+            network_queue.append(dataVal)
+        except KeyboardInterrupt:
+            print("Caught interrupt, shutting down server")
+            conn.close()
+            break 
  
 
 # initialize a client, sending messages
-def client(portVal): 
+def client(portVal, network_queue): 
     host= "127.0.0.1" 
     port = int(portVal) 
     s = socket.socket(socket.AF_INET,socket.SOCK_STREAM) 
@@ -39,21 +42,27 @@ def client(portVal):
         s.connect((host,port))
         print("Client-side connection success to port val:" + str(portVal) + "\n")
 
+        # on each clock cycle
         while True: 
-            # TODO: send messages and edit Log here
-            codeVal = str(client_code) 
-            time.sleep(clock_rate_sleep_val)
-            s.send(codeVal.encode('ascii'))
-            print("msg sent", codeVal)
- 
+            try:
+                # TODO: send messages and edit Log here
+                log_file.write(str(network_queue))
+                codeVal = str(client_code) 
+                time.sleep(clock_rate_sleep_val)
+                s.send(codeVal.encode('ascii'))
+                print("msg sent", codeVal)
+            except KeyboardInterrupt:
+                    print("Caught interrupt, shutting down server")
+                    s.close()
+                    break 
     except socket.error as e: 
         print ("Error connecting client: %s" % e)
 
     log_file.close()
  
 # initialize a server machine to connect with clients
-def init_machine(config):
-    HOST = str(config[0])
+def init_machine(config, network_queue):
+    HOST = str(config[0],)
     PORT = int(config[1])
     print("starting server | port val:", PORT)
 
@@ -63,9 +72,13 @@ def init_machine(config):
     
     while True: 
         # always accept new connections from other clients and start a server connection between that client and server
-        conn, addr = s.accept()
-        start_new_thread(server, (conn,))
- 
+        try:
+            conn, addr = s.accept()
+            start_new_thread(server, (conn, network_queue))
+        except KeyboardInterrupt:
+            print("Caught interrupt, shutting down machine")
+            s.close()
+            break 
 
 def machine(config):
     # get the unique process id of this thread
@@ -75,22 +88,32 @@ def machine(config):
     print(config) 
 
     # create a server thread to listen for messages
-    init_thread = Thread(target=init_machine, args=(config,)) 
+    network_queue = []
+    init_thread = Thread(target=init_machine, args=(config, network_queue)) 
     init_thread.start() #add delay to initialize the server-side logic on all processes 
 
-    time.sleep(5) # extensible to multiple producers
+    time.sleep(2) # extensible to multiple producers
     
     # create a client thread to Other Machine A that can send messages
-    client_thread_A = Thread(target=client, args=(config[2])) 
+    client_thread_A = Thread(target=client, args=(config[2], network_queue)) 
     client_thread_A.start()
 
     # create a client thread to Other Machine B that can send messages
-    client_thread_B = Thread(target=client, args=(config[3])) 
+    client_thread_B = Thread(target=client, args=(config[3], network_queue)) 
     client_thread_B.start()
  
     # the random number generator for when there is no message in the queue
     while True: 
-        client_code = random.randint(1, 10)
+        try:
+            client_code = random.randint(1, 10)
+        except KeyboardInterrupt:
+            print("Caught interrupt, shutting down machine")
+            init_thread.Thread.interrupt_main()
+            client_thread_A.Thread.interrupt_main()
+            client_thread_B.Thread.interrupt_main()
+            break 
+
+
 
 
 localHost= "127.0.0.1"

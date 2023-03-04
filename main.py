@@ -37,6 +37,8 @@ def client(portValMachine, portValA, portValB, network_queue):
     s_B = socket.socket(socket.AF_INET,socket.SOCK_STREAM) 
     clock_rate_sleep_val = 1.0 / random.randint(1, 6) # clock rate defined here
 
+    logical_clock = 0
+
     # open log
     log_file = open('port_{}_log.txt'.format(portValMachine), 'w')
 
@@ -56,17 +58,20 @@ def client(portValMachine, portValA, portValB, network_queue):
 
                 # there is something in the network queue
                 if len(network_queue) > 0:
-                    # TODO: update the logical clock
+                    # TODO: update the logical clock and add first item from network queue to log
+                    
+                    # logical_clock = max(time from network queue, logical_clock) + 1
                     pass
                 else:
+                    # no message in the queue, follow scope and update log
                     codeVal = str(client_code) 
+                    s_A.send(codeVal.encode('ascii'))
+                    s_B.send(codeVal.encode('ascii'))
+                    print("msg sent", codeVal)
 
                 log_file.write(str(network_queue.pop(0)))
 
                 time.sleep(clock_rate_sleep_val)
-                s_A.send(codeVal.encode('ascii'))
-                s_B.send(codeVal.encode('ascii'))
-                print("msg sent", codeVal)
             except KeyboardInterrupt:
                 print("Caught interrupt, shutting down client")
                 s_A.close()

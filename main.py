@@ -29,18 +29,23 @@ def server(conn, network_queue):
  
 
 # initialize a client, sending messages
-def client(portVal, network_queue): 
+def client(portValMachine, portValA, portValB, network_queue): 
     host= "127.0.0.1" 
-    port = int(portVal) 
-    s = socket.socket(socket.AF_INET,socket.SOCK_STREAM) 
+    portA = int(portValA) 
+    portB = int(portValB) 
+    s_A = socket.socket(socket.AF_INET,socket.SOCK_STREAM) 
+    s_B = socket.socket(socket.AF_INET,socket.SOCK_STREAM) 
     clock_rate_sleep_val = 1.0 / random.randint(1, 6) # clock rate defined here
 
     # open log
-    log_file = open('port_{}_log.txt'.format(portVal), 'w')
+    log_file = open('port_{}_log.txt'.format(portValMachine), 'w')
 
     try: 
-        s.connect((host,port))
-        print("Client-side connection success to port val:" + str(portVal) + "\n")
+        s_A.connect((host,portValA))
+        print("Client-side connection success to port val:" + str(portValA) + "\n")
+
+        s_B.connect((host,portValB))
+        print("Client-side connection success to port val:" + str(portValB) + "\n")
 
         # on each clock cycle
         while True: 
@@ -58,16 +63,17 @@ def client(portVal, network_queue):
 
                 log_file.write(str(network_queue.pop(0)))
 
-                
                 time.sleep(clock_rate_sleep_val)
-                s.send(codeVal.encode('ascii'))
+                s_A.send(codeVal.encode('ascii'))
+                s_B.send(codeVal.encode('ascii'))
                 print("msg sent", codeVal)
             except KeyboardInterrupt:
                 print("Caught interrupt, shutting down client")
-                s.close()
+                s_A.close()
+                s_B.send(codeVal.encode('ascii'))
                 break 
     except socket.error as e: 
-        print ("Error connecting client: %s" % e)
+        print("Error connecting client: %s" % e)
 
     log_file.close()
  
@@ -107,14 +113,9 @@ def machine(config):
     time.sleep(2) # extensible to multiple producers
     
     # create a client thread to Other Machine A that can send messages
-    client_thread_A = Thread(target=client, args=(config[2], network_queue)) 
-    client_thread_A.daemon = True
-    client_thread_A.start()
-
-    # create a client thread to Other Machine B that can send messages
-    client_thread_B = Thread(target=client, args=(config[3], network_queue)) 
-    client_thread_B.daemon = True
-    client_thread_B.start()
+    client_thread = Thread(target=client, args=(config[1], config[2], config[3], network_queue)) 
+    client_thread.daemon = True
+    client_thread.start()
  
     # the random number generator for when there is no message in the queue
     try:

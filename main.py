@@ -6,6 +6,7 @@ import threading
 import time 
 from threading import Thread 
 import random
+from datetime import datetime
  
 # server, receives messages
 def server(conn, network_queue):
@@ -58,25 +59,62 @@ def client(portValMachine, portValA, portValB, network_queue):
 
                 # there is something in the network queue
                 if len(network_queue) > 0:
-                    # TODO: update the logical clock and add first item from network queue to log
-                    
-                    # logical_clock = max(time from network queue, logical_clock) + 1
-                    pass
+                    # the virtual machine should take one message off the queue, update the local logical clock, 
+                    # and write in the log that it received a message, the global time (gotten from the system), the length of the message queue, and the logical clock time.
+                    message = str(network_queue.pop(0))
+
+                    # logical time is the last portion of every message, split by _
+                    sender_logical_time = int(message.split("_")[-1])
+                    logical_clock = max(sender_logical_time, logical_clock) + 1
+                    global_time = str(datetime.time(datetime.now()))
+                    # get queue length after popping
+                    queue_length = str(len(network_queue))
+                    log_file.write("received" + "_" + global_time + "_" + queue_length + "_" + str(logical_clock))
+
                 else:
                     # no message in the queue, follow scope and update log
-                    codeVal = str(client_code) 
-                    s_A.send(codeVal.encode('ascii'))
-                    s_B.send(codeVal.encode('ascii'))
-                    print("msg sent", codeVal)
 
-                log_file.write(str(network_queue.pop(0)))
+                    # sent message incorporates logical clock time
+                    codeVal = str(client_code) + "_" + str(logical_clock)
+
+                    if client_code == 1:
+                        s_A.send(codeVal.encode('ascii'))
+                        logical_clock += 1
+                        global_time = str(datetime.time(datetime.now()))
+                        log_file.write("sent: " + str(client_code) + " | global time: " + global_time + " | logical clock: " + str(logical_clock))
+                        print("msg sent to one client", codeVal)
+
+                    elif client_code == 2:
+                        s_B.send(codeVal.encode('ascii'))
+                        logical_clock += 1
+                        global_time = str(datetime.time(datetime.now()))
+                        log_file.write("sent: " + str(client_code) + " | global time: " + global_time + " | logical clock: " + str(logical_clock))
+                        print("msg sent to other client", codeVal)
+
+                    # Do we only update the logical clock once here?
+                    elif client_code == 3:
+                        s_A.send(codeVal.encode('ascii'))
+                        #logical_clock += 1
+                        #log_file.write("sent" + "_" + global_time + "_" + str(logical_clock))
+                        s_B.send(codeVal.encode('ascii'))
+                        logical_clock += 1
+                        global_time = str(datetime.time(datetime.now()))
+                        log_file.write("sent: " + str(client_code) + " | global time: " + global_time + " | logical clock: " + str(logical_clock))
+                        print("msg sent to both clients", codeVal)
+                    else:
+                        logical_clock += 1
+                        global_time = str(datetime.time(datetime.now()))
+                        log_file.write("internal event " + "| global time: " + global_time + "| logical clock: " + str(logical_clock))
+                        print("internal event logged")
 
                 time.sleep(clock_rate_sleep_val)
+
             except KeyboardInterrupt:
                 print("Caught interrupt, shutting down client")
                 s_A.close()
                 s_B.send(codeVal.encode('ascii'))
                 break 
+
     except socket.error as e: 
         print("Error connecting client: %s" % e)
 

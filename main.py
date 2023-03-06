@@ -37,13 +37,12 @@ def client(portValMachine, portValA, portValB, network_queue):
     s_A = socket.socket(socket.AF_INET,socket.SOCK_STREAM) 
     s_B = socket.socket(socket.AF_INET,socket.SOCK_STREAM) 
     clock_rate_sleep_val = 1.0 / random.randint(1, 6) # clock rate defined here
-    print("Clock rate: ", clock_rate_sleep_val)
-
     logical_clock = 0
 
     # open log
-    #log_file = open('port_{}_log.txt'.format(portValMachine), 'a')
-    print("port value: ", portValMachine)
+    log_file = open('port_{}_log.txt'.format(portValMachine), 'w')
+    log_file.close()
+    print("port value: ", portValMachine, "Clock rate: ", clock_rate_sleep_val)
 
     try: 
         s_A.connect((host,portA))
@@ -72,7 +71,7 @@ def client(portValMachine, portValA, portValB, network_queue):
                     global_time = str(datetime.time(datetime.now()))
                     # get queue length after popping
                     queue_length = str(len(network_queue))
-                    log_file.write("received" + " | global time: " + global_time + " | queue length: " + queue_length + " | logical clock: " + str(logical_clock) + "\n")
+                    log_file.write("logical clock: " + str(logical_clock) + " | received" + " | global time: " + global_time + " | queue length: " + queue_length + "\n")
 
                 else:
                     # no message in the queue, follow scope and update log
@@ -84,14 +83,14 @@ def client(portValMachine, portValA, portValB, network_queue):
                         s_A.send(codeVal.encode('ascii'))
                         logical_clock += 1
                         global_time = str(datetime.time(datetime.now()))
-                        log_file.write("sent: " + str(1) + " | global time: " + global_time + " | logical clock: " + str(logical_clock) + "\n")
+                        log_file.write("logical clock: " + str(logical_clock) + " | sent: " + str(1) + " | global time: " + global_time + "\n")
                         print("msg sent to one client", codeVal)
 
                     elif client_code == 2:
                         s_B.send(codeVal.encode('ascii'))
                         logical_clock += 1
                         global_time = str(datetime.time(datetime.now()))
-                        log_file.write("sent: " + str(2) + " | global time: " + global_time + " | logical clock: " + str(logical_clock) + "\n")
+                        log_file.write("logical clock: " + str(logical_clock) + " | sent: " + str(2) + " | global time: " + global_time + "\n")
                         print("msg sent to other client", codeVal)
 
                     # Do we only update the logical clock once here?
@@ -102,12 +101,12 @@ def client(portValMachine, portValA, portValB, network_queue):
                         s_B.send(codeVal.encode('ascii'))
                         logical_clock += 1
                         global_time = str(datetime.time(datetime.now()))
-                        log_file.write("sent: " + str(3) + " | global time: " + global_time + " | logical clock: " + str(logical_clock) + "\n")
+                        log_file.write("logical clock: " + str(logical_clock) + " | sent: " + str(3) + " | global time: " + global_time + "\n")
                         print("msg sent to both clients", codeVal)
                     else:
                         logical_clock += 1
                         global_time = str(datetime.time(datetime.now()))
-                        log_file.write("internal event " + "| global time: " + global_time + "| logical clock: " + str(logical_clock) + "\n")
+                        log_file.write("logical clock: " + str(logical_clock) + " | internal event " + "| global time: " + global_time + "\n")
                         print("internal event logged")
 
                 time.sleep(clock_rate_sleep_val)

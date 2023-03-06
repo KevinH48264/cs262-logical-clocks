@@ -37,6 +37,7 @@ def client(portValMachine, portValA, portValB, network_queue):
     s_A = socket.socket(socket.AF_INET,socket.SOCK_STREAM) 
     s_B = socket.socket(socket.AF_INET,socket.SOCK_STREAM) 
     clock_rate_sleep_val = 1.0 / random.randint(1, 6) # clock rate defined here
+    print("Clock rate: ", clock_rate_sleep_val)
 
     logical_clock = 0
 
@@ -71,7 +72,7 @@ def client(portValMachine, portValA, portValB, network_queue):
                     global_time = str(datetime.time(datetime.now()))
                     # get queue length after popping
                     queue_length = str(len(network_queue))
-                    log_file.write("received" + "_" + global_time + "_" + queue_length + "_" + str(logical_clock) + "\n")
+                    log_file.write("received" + " | global time: " + global_time + " | queue length: " + queue_length + " | logical clock: " + str(logical_clock) + "\n")
 
                 else:
                     # no message in the queue, follow scope and update log

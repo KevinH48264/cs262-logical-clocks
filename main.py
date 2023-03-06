@@ -11,7 +11,7 @@ from datetime import datetime
 # server, receives messages
 def server(conn, network_queue):
     print("server accepted connection" + str(conn)+"\n")
-    sleepVal = 0.900
+    sleepVal = 0.01
 
     while True: 
         try:
@@ -169,6 +169,7 @@ def machine(config):
     while True:
         try: 
             client_code = random.randint(1, 10)
+            time.sleep(0.01)
         except KeyboardInterrupt:
             print("Caught interrupt, shutting down machine")
             #os.kill(os.getpid(), 15)

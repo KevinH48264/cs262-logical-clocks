@@ -41,13 +41,14 @@ def client(portValMachine, portValA, portValB, network_queue):
     logical_clock = 0
 
     # open log
-    log_file = open('port_{}_log.txt'.format(portValMachine), 'w')
+    #log_file = open('port_{}_log.txt'.format(portValMachine), 'a')
+    print("port value: ", portValMachine)
 
     try: 
-        s_A.connect((host,portValA))
+        s_A.connect((host,portA))
         print("Client-side connection success to port val:" + str(portValA) + "\n")
 
-        s_B.connect((host,portValB))
+        s_B.connect((host,portB))
         print("Client-side connection success to port val:" + str(portValB) + "\n")
 
         # on each clock cycle
@@ -56,6 +57,7 @@ def client(portValMachine, portValA, portValB, network_queue):
                 # TODO: send messages and edit Log here
                 print("network queue: ", network_queue)
                 log_message = ""
+                log_file = open('port_{}_log.txt'.format(portValMachine), 'a')
 
                 # there is something in the network queue
                 if len(network_queue) > 0:
@@ -69,7 +71,7 @@ def client(portValMachine, portValA, portValB, network_queue):
                     global_time = str(datetime.time(datetime.now()))
                     # get queue length after popping
                     queue_length = str(len(network_queue))
-                    log_file.write("received" + "_" + global_time + "_" + queue_length + "_" + str(logical_clock))
+                    log_file.write("received" + "_" + global_time + "_" + queue_length + "_" + str(logical_clock) + "\n")
 
                 else:
                     # no message in the queue, follow scope and update log
@@ -81,14 +83,14 @@ def client(portValMachine, portValA, portValB, network_queue):
                         s_A.send(codeVal.encode('ascii'))
                         logical_clock += 1
                         global_time = str(datetime.time(datetime.now()))
-                        log_file.write("sent: " + str(client_code) + " | global time: " + global_time + " | logical clock: " + str(logical_clock))
+                        log_file.write("sent: " + str(client_code) + " | global time: " + global_time + " | logical clock: " + str(logical_clock) + "\n")
                         print("msg sent to one client", codeVal)
 
                     elif client_code == 2:
                         s_B.send(codeVal.encode('ascii'))
                         logical_clock += 1
                         global_time = str(datetime.time(datetime.now()))
-                        log_file.write("sent: " + str(client_code) + " | global time: " + global_time + " | logical clock: " + str(logical_clock))
+                        log_file.write("sent: " + str(client_code) + " | global time: " + global_time + " | logical clock: " + str(logical_clock) + "\n")
                         print("msg sent to other client", codeVal)
 
                     # Do we only update the logical clock once here?
@@ -99,24 +101,27 @@ def client(portValMachine, portValA, portValB, network_queue):
                         s_B.send(codeVal.encode('ascii'))
                         logical_clock += 1
                         global_time = str(datetime.time(datetime.now()))
-                        log_file.write("sent: " + str(client_code) + " | global time: " + global_time + " | logical clock: " + str(logical_clock))
+                        log_file.write("sent: " + str(client_code) + " | global time: " + global_time + " | logical clock: " + str(logical_clock) + "\n")
                         print("msg sent to both clients", codeVal)
                     else:
                         logical_clock += 1
                         global_time = str(datetime.time(datetime.now()))
-                        log_file.write("internal event " + "| global time: " + global_time + "| logical clock: " + str(logical_clock))
+                        log_file.write("internal event " + "| global time: " + global_time + "| logical clock: " + str(logical_clock) + "\n")
                         print("internal event logged")
 
                 time.sleep(clock_rate_sleep_val)
+                log_file.close()
 
             except KeyboardInterrupt:
                 print("Caught interrupt, shutting down client")
                 s_A.close()
-                s_B.send(codeVal.encode('ascii'))
+                s_B.close()
+                log_file.close()
                 break 
 
     except socket.error as e: 
         print("Error connecting client: %s" % e)
+        log_file.close()
 
     log_file.close()
  
@@ -161,11 +166,14 @@ def machine(config):
     client_thread.start()
  
     # the random number generator for when there is no message in the queue
-    try:
-        while True: 
+    while True:
+        try: 
             client_code = random.randint(1, 10)
-    except KeyboardInterrupt:
-        pass
+        except KeyboardInterrupt:
+            print("Caught interrupt, shutting down machine")
+            #os.kill(os.getpid(), 15)
+            break
+    return
 
 localHost= "127.0.0.1"
 
@@ -176,12 +184,15 @@ if __name__ == '__main__':
     port3 = 4056
 
     # define the config of other machines that should be connected to
+    #global p1 
     config1=[localHost, port1, port2, port3]
     p1 = Process(target=machine, args=(config1,))
-    
+
+    #global p2
     config2=[localHost, port2, port3, port1]
     p2 = Process(target=machine, args=(config2,))
-    
+
+    #global p3
     config3=[localHost, port3, port1, port2]
     p3 = Process(target=machine, args=(config3,))
     
@@ -194,3 +205,4 @@ if __name__ == '__main__':
     p1.join()
     p2.join()
     p3.join()
+    print("Threads all terminated.")

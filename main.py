@@ -83,14 +83,14 @@ def client(portValMachine, portValA, portValB, network_queue):
                         s_A.send(codeVal.encode('ascii'))
                         logical_clock += 1
                         global_time = str(datetime.time(datetime.now()))
-                        log_file.write("sent: " + str(client_code) + " | global time: " + global_time + " | logical clock: " + str(logical_clock) + "\n")
+                        log_file.write("sent: " + str(1) + " | global time: " + global_time + " | logical clock: " + str(logical_clock) + "\n")
                         print("msg sent to one client", codeVal)
 
                     elif client_code == 2:
                         s_B.send(codeVal.encode('ascii'))
                         logical_clock += 1
                         global_time = str(datetime.time(datetime.now()))
-                        log_file.write("sent: " + str(client_code) + " | global time: " + global_time + " | logical clock: " + str(logical_clock) + "\n")
+                        log_file.write("sent: " + str(2) + " | global time: " + global_time + " | logical clock: " + str(logical_clock) + "\n")
                         print("msg sent to other client", codeVal)
 
                     # Do we only update the logical clock once here?
@@ -101,7 +101,7 @@ def client(portValMachine, portValA, portValB, network_queue):
                         s_B.send(codeVal.encode('ascii'))
                         logical_clock += 1
                         global_time = str(datetime.time(datetime.now()))
-                        log_file.write("sent: " + str(client_code) + " | global time: " + global_time + " | logical clock: " + str(logical_clock) + "\n")
+                        log_file.write("sent: " + str(3) + " | global time: " + global_time + " | logical clock: " + str(logical_clock) + "\n")
                         print("msg sent to both clients", codeVal)
                     else:
                         logical_clock += 1

@@ -13,3 +13,13 @@ received_21:06:20.135741_1_35
 received_21:06:21.144562_1_36
 received_21:06:22.156140_2_43
 received_21:06:23.172728_3_44
+internal event | global time: 21:08:34.721431| logical clock: 1
+internal event | global time: 21:08:35.253453| logical clock: 2
+received_21:08:35.769174_1_3
+received_21:08:36.279225_0_4
+internal event | global time: 21:08:36.788958| logical clock: 5
+received_21:08:37.312989_0_9
+internal event | global time: 21:08:37.826402| logical clock: 10
+sent: 3 | global time: 21:08:38.346486 | logical clock: 11
+sent: 1 | global time: 21:08:38.876755 | logical clock: 12
+received_21:08:39.393475_1_17

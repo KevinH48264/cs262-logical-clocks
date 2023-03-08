@@ -1,17 +1,17 @@
-from multiprocessing import Process 
+from multiprocessing import Process, Lock
 import os 
 import socket 
 from _thread import * 
-import threading 
+import threading
 import time 
 from threading import Thread 
 import random
 from datetime import datetime
  
 # server, receives messages
-def server(conn, network_queue):
+def server(conn, network_queue, network_lock):
     print("server accepted connection" + str(conn)+"\n")
-    sleepVal = 0.900
+    sleepVal = 0.01
 
     while True: 
         try:
@@ -22,7 +22,8 @@ def server(conn, network_queue):
             print("msg received:", dataVal) 
 
             # hold incoming messages from the client connection
-            network_queue.append(dataVal)
+            with network_lock:
+                network_queue.append(dataVal)
         except KeyboardInterrupt:
             print("Caught interrupt, shutting down connection")
             conn.close()
@@ -30,7 +31,7 @@ def server(conn, network_queue):
  
 
 # initialize a client, sending messages
-def client(portValMachine, portValA, portValB, network_queue): 
+def client(portValMachine, portValA, portValB, network_queue, network_lock): 
     host= "127.0.0.1" 
     portA = int(portValA) 
     portB = int(portValB) 
@@ -40,8 +41,9 @@ def client(portValMachine, portValA, portValB, network_queue):
     logical_clock = 0
 
     # open log
-    log_file = open('port_{}_log.txt'.format(portValMachine), 'w')
-    log_file.close()
+    with network_lock:
+        log_file = open('port_{}_log.txt'.format(portValMachine), 'w')
+        log_file.close()
     print("port value: ", portValMachine, "Clock rate: ", clock_rate_sleep_val)
 
     try: 
@@ -55,7 +57,7 @@ def client(portValMachine, portValA, portValB, network_queue):
         while True: 
             try:
                 # TODO: send messages and edit Log here
-                print("network queue: ", network_queue)
+                # print("network queue: ", network_queue)
                 log_message = ""
                 log_file = open('port_{}_log.txt'.format(portValMachine), 'a')
 
@@ -63,7 +65,8 @@ def client(portValMachine, portValA, portValB, network_queue):
                 if len(network_queue) > 0:
                     # the virtual machine should take one message off the queue, update the local logical clock, 
                     # and write in the log that it received a message, the global time (gotten from the system), the length of the message queue, and the logical clock time.
-                    message = str(network_queue.pop(0))
+                    with network_lock:
+                        message = str(network_queue.pop(0))
 
                     # logical time is the last portion of every message, split by _
                     sender_logical_time = int(message.split("_")[-1])
@@ -126,7 +129,7 @@ def client(portValMachine, portValA, portValB, network_queue):
     log_file.close()
  
 # initialize a server machine to connect with clients
-def init_machine(config, network_queue):
+def init_machine(config, network_queue, network_lock):
     HOST = str(config[0],)
     PORT = int(config[1])
     print("starting server | port val:", PORT)
@@ -139,7 +142,7 @@ def init_machine(config, network_queue):
         # always accept new connections from other clients and start a server connection between that client and server
         try:
             conn, addr = s.accept()
-            start_new_thread(server, (conn, network_queue))
+            start_new_thread(server, (conn, network_queue, network_lock))
         except KeyboardInterrupt:
             print("Caught interrupt, shutting down server")
             s.close()
@@ -154,14 +157,16 @@ def machine(config):
 
     # create a server thread to listen for messages
     network_queue = []
-    init_thread = Thread(target=init_machine, args=(config, network_queue)) 
+    network_lock = Lock()
+
+    init_thread = Thread(target=init_machine, args=(config, network_queue, network_lock)) 
     init_thread.daemon = True # allow for threads to exit
     init_thread.start() #add delay to initialize the server-side logic on all processes 
 
     time.sleep(2) # extensible to multiple producers
     
     # create a client thread to Other Machine A that can send messages
-    client_thread = Thread(target=client, args=(config[1], config[2], config[3], network_queue)) 
+    client_thread = Thread(target=client, args=(config[1], config[2], config[3], network_queue, network_lock)) 
     client_thread.daemon = True
     client_thread.start()
  
@@ -169,9 +174,9 @@ def machine(config):
     while True:
         try: 
             client_code = random.randint(1, 10)
+            time.sleep(0.01)
         except KeyboardInterrupt:
             print("Caught interrupt, shutting down machine")
-            #os.kill(os.getpid(), 15)
             break
     return
 

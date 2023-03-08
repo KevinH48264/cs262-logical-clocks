@@ -1,0 +1,1 @@
+logical clock: 2 | received | global time: 14:02:55.116508 | queue length: 0

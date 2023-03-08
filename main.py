@@ -30,6 +30,8 @@ def server(conn, network_queue, network_lock):
  
 # initialize a client, sending messages
 def client(portValMachine, portValA, portValB, network_queue, network_lock, test=False, test_client_code=-1): 
+    global client_code
+
     host= "127.0.0.1" 
     portA = int(portValA) 
     portB = int(portValB) 

@@ -1,7 +1,175 @@
-logical clock: 1 | sent: 1 | global time: 22:53:25.550802
-logical clock: 2 | internal event | global time: 22:53:25.728801
-logical clock: 3 | internal event | global time: 22:53:25.904805
-logical clock: 4 | internal event | global time: 22:53:26.078799
-logical clock: 5 | sent: 1 | global time: 22:53:26.254800
-logical clock: 6 | internal event | global time: 22:53:26.428802
-logical clock: 7 | internal event | global time: 22:53:26.604838
+logical clock: 1 | internal event | global time: 14:01:26.950683
+logical clock: 2 | internal event | global time: 14:01:27.127139
+logical clock: 3 | received | global time: 14:01:27.312256 | queue length: 0
+logical clock: 4 | internal event | global time: 14:01:27.486874
+logical clock: 5 | received | global time: 14:01:27.671401 | queue length: 0
+logical clock: 6 | internal event | global time: 14:01:27.841698
+logical clock: 7 | received | global time: 14:01:28.012361 | queue length: 0
+logical clock: 8 | sent: 1 | global time: 14:01:28.187460
+logical clock: 9 | internal event | global time: 14:01:28.359170
+logical clock: 10 | received | global time: 14:01:28.529602 | queue length: 0
+logical clock: 11 | internal event | global time: 14:01:28.700947
+logical clock: 12 | internal event | global time: 14:01:28.872333
+logical clock: 13 | received | global time: 14:01:29.044471 | queue length: 0
+logical clock: 14 | received | global time: 14:01:29.219521 | queue length: 0
+logical clock: 15 | sent: 2 | global time: 14:01:29.405075
+logical clock: 16 | internal event | global time: 14:01:29.587590
+logical clock: 17 | sent: 3 | global time: 14:01:29.759971
+logical clock: 18 | internal event | global time: 14:01:29.931860
+logical clock: 19 | internal event | global time: 14:01:30.103503
+logical clock: 20 | sent: 3 | global time: 14:01:30.279978
+logical clock: 21 | internal event | global time: 14:01:30.466074
+logical clock: 22 | internal event | global time: 14:01:30.637378
+logical clock: 23 | received | global time: 14:01:30.809684 | queue length: 0
+logical clock: 24 | internal event | global time: 14:01:30.978639
+logical clock: 25 | internal event | global time: 14:01:31.149236
+logical clock: 26 | received | global time: 14:01:31.321333 | queue length: 0
+logical clock: 27 | internal event | global time: 14:01:31.491978
+logical clock: 28 | internal event | global time: 14:01:31.678334
+logical clock: 29 | internal event | global time: 14:01:31.850065
+logical clock: 30 | internal event | global time: 14:01:32.018743
+logical clock: 31 | internal event | global time: 14:01:32.190496
+logical clock: 32 | received | global time: 14:01:32.365352 | queue length: 0
+logical clock: 33 | sent: 1 | global time: 14:01:32.546124
+logical clock: 34 | internal event | global time: 14:01:32.717198
+logical clock: 35 | internal event | global time: 14:01:32.890250
+logical clock: 36 | received | global time: 14:01:33.061930 | queue length: 0
+logical clock: 37 | internal event | global time: 14:01:33.233363
+logical clock: 38 | internal event | global time: 14:01:33.408498
+logical clock: 39 | received | global time: 14:01:33.583345 | queue length: 0
+logical clock: 40 | internal event | global time: 14:01:33.751585
+logical clock: 41 | internal event | global time: 14:01:33.922963
+logical clock: 42 | internal event | global time: 14:01:34.092856
+logical clock: 43 | sent: 1 | global time: 14:01:34.266953
+logical clock: 44 | internal event | global time: 14:01:34.440347
+logical clock: 45 | received | global time: 14:01:34.612870 | queue length: 0
+logical clock: 46 | received | global time: 14:01:34.784466 | queue length: 0
+logical clock: 47 | internal event | global time: 14:01:34.955515
+logical clock: 48 | internal event | global time: 14:01:35.125612
+logical clock: 49 | received | global time: 14:01:35.296667 | queue length: 0
+logical clock: 50 | internal event | global time: 14:01:35.467451
+logical clock: 51 | sent: 1 | global time: 14:01:35.638294
+logical clock: 52 | sent: 1 | global time: 14:01:35.811352
+logical clock: 53 | sent: 1 | global time: 14:01:35.982739
+logical clock: 54 | sent: 3 | global time: 14:01:36.152992
+logical clock: 55 | internal event | global time: 14:01:36.322715
+logical clock: 56 | internal event | global time: 14:01:36.493092
+logical clock: 57 | internal event | global time: 14:01:36.663573
+logical clock: 58 | internal event | global time: 14:01:36.838312
+logical clock: 59 | internal event | global time: 14:01:37.008773
+logical clock: 60 | internal event | global time: 14:01:37.177771
+logical clock: 61 | sent: 2 | global time: 14:01:37.350316
+logical clock: 62 | internal event | global time: 14:01:37.534650
+logical clock: 63 | received | global time: 14:01:37.705525 | queue length: 0
+logical clock: 64 | received | global time: 14:01:37.875581 | queue length: 0
+logical clock: 65 | internal event | global time: 14:01:38.051017
+logical clock: 66 | sent: 2 | global time: 14:01:38.223345
+logical clock: 67 | received | global time: 14:01:38.408494 | queue length: 0
+logical clock: 68 | sent: 3 | global time: 14:01:38.579463
+logical clock: 69 | internal event | global time: 14:01:38.751689
+logical clock: 70 | internal event | global time: 14:01:38.935369
+logical clock: 71 | sent: 2 | global time: 14:01:39.108012
+logical clock: 72 | received | global time: 14:01:39.291602 | queue length: 0
+logical clock: 73 | internal event | global time: 14:01:39.460309
+logical clock: 74 | internal event | global time: 14:01:39.630014
+logical clock: 75 | received | global time: 14:01:39.799900 | queue length: 0
+logical clock: 76 | internal event | global time: 14:01:39.971793
+logical clock: 77 | internal event | global time: 14:01:40.146795
+logical clock: 78 | sent: 2 | global time: 14:01:40.318099
+logical clock: 79 | received | global time: 14:01:40.488193 | queue length: 0
+logical clock: 80 | internal event | global time: 14:01:40.658671
+logical clock: 81 | received | global time: 14:01:40.831917 | queue length: 0
+logical clock: 82 | received | global time: 14:01:41.002561 | queue length: 0
+logical clock: 83 | sent: 3 | global time: 14:01:41.176017
+logical clock: 84 | internal event | global time: 14:01:41.344876
+logical clock: 85 | received | global time: 14:01:41.514774 | queue length: 0
+logical clock: 86 | internal event | global time: 14:01:41.686153
+logical clock: 87 | received | global time: 14:01:41.858782 | queue length: 0
+logical clock: 88 | internal event | global time: 14:01:42.031490
+logical clock: 89 | internal event | global time: 14:01:42.204377
+logical clock: 90 | internal event | global time: 14:01:42.375270
+logical clock: 91 | received | global time: 14:01:42.547166 | queue length: 1
+logical clock: 92 | received | global time: 14:01:42.716440 | queue length: 0
+logical clock: 93 | sent: 2 | global time: 14:01:42.887815
+logical clock: 94 | internal event | global time: 14:01:43.059126
+logical clock: 95 | sent: 1 | global time: 14:01:43.230834
+logical clock: 96 | sent: 1 | global time: 14:01:43.400501
+logical clock: 97 | internal event | global time: 14:01:43.569566
+logical clock: 98 | internal event | global time: 14:01:43.738620
+logical clock: 99 | internal event | global time: 14:01:43.909939
+logical clock: 100 | internal event | global time: 14:01:44.081438
+logical clock: 101 | internal event | global time: 14:01:44.250618
+logical clock: 102 | received | global time: 14:01:44.420962 | queue length: 0
+logical clock: 103 | sent: 1 | global time: 14:01:44.593532
+logical clock: 104 | received | global time: 14:01:44.764123 | queue length: 0
+logical clock: 105 | internal event | global time: 14:01:44.937096
+logical clock: 106 | internal event | global time: 14:01:45.109161
+logical clock: 107 | received | global time: 14:01:45.278941 | queue length: 0
+logical clock: 108 | received | global time: 14:01:45.449936 | queue length: 0
+logical clock: 109 | internal event | global time: 14:01:45.621101
+logical clock: 110 | received | global time: 14:01:45.791504 | queue length: 0
+logical clock: 111 | received | global time: 14:01:45.963643 | queue length: 0
+logical clock: 112 | sent: 3 | global time: 14:01:46.134675
+logical clock: 113 | sent: 3 | global time: 14:01:46.307622
+logical clock: 114 | internal event | global time: 14:01:46.477640
+logical clock: 115 | internal event | global time: 14:01:46.647788
+logical clock: 116 | internal event | global time: 14:01:46.818260
+logical clock: 117 | received | global time: 14:01:46.988786 | queue length: 0
+logical clock: 118 | received | global time: 14:01:47.161965 | queue length: 0
+logical clock: 119 | internal event | global time: 14:01:47.333510
+logical clock: 120 | received | global time: 14:01:47.506594 | queue length: 1
+logical clock: 121 | received | global time: 14:01:47.675458 | queue length: 0
+logical clock: 122 | internal event | global time: 14:01:47.849741
+logical clock: 123 | received | global time: 14:01:48.020124 | queue length: 0
+logical clock: 124 | sent: 2 | global time: 14:01:48.191408
+logical clock: 125 | received | global time: 14:01:48.362244 | queue length: 0
+logical clock: 126 | internal event | global time: 14:01:48.535086
+logical clock: 127 | received | global time: 14:01:48.703397 | queue length: 0
+logical clock: 128 | internal event | global time: 14:01:48.875587
+logical clock: 129 | received | global time: 14:01:49.044779 | queue length: 0
+logical clock: 130 | sent: 3 | global time: 14:01:49.216113
+logical clock: 131 | internal event | global time: 14:01:49.388117
+logical clock: 132 | internal event | global time: 14:01:49.560122
+logical clock: 133 | internal event | global time: 14:01:49.734873
+logical clock: 134 | internal event | global time: 14:01:49.918749
+logical clock: 135 | internal event | global time: 14:01:50.090397
+logical clock: 136 | internal event | global time: 14:01:50.261254
+logical clock: 137 | received | global time: 14:01:50.434361 | queue length: 0
+logical clock: 138 | received | global time: 14:01:50.603754 | queue length: 0
+logical clock: 139 | internal event | global time: 14:01:50.775869
+logical clock: 140 | received | global time: 14:01:50.945910 | queue length: 0
+logical clock: 141 | internal event | global time: 14:01:51.115944
+logical clock: 142 | received | global time: 14:01:51.287946 | queue length: 0
+logical clock: 143 | internal event | global time: 14:01:51.462424
+logical clock: 144 | internal event | global time: 14:01:51.632480
+logical clock: 145 | internal event | global time: 14:01:51.804694
+logical clock: 146 | internal event | global time: 14:01:51.975386
+logical clock: 147 | internal event | global time: 14:01:52.148936
+logical clock: 148 | internal event | global time: 14:01:52.334547
+logical clock: 149 | received | global time: 14:01:52.518670 | queue length: 0
+logical clock: 150 | received | global time: 14:01:52.692066 | queue length: 0
+logical clock: 151 | received | global time: 14:01:52.861677 | queue length: 0
+logical clock: 152 | sent: 2 | global time: 14:01:53.035220
+logical clock: 153 | received | global time: 14:01:53.205064 | queue length: 0
+logical clock: 154 | internal event | global time: 14:01:53.379570
+logical clock: 155 | sent: 2 | global time: 14:01:53.551690
+logical clock: 156 | internal event | global time: 14:01:53.721559
+logical clock: 157 | internal event | global time: 14:01:53.891509
+logical clock: 158 | internal event | global time: 14:01:54.061500
+logical clock: 159 | internal event | global time: 14:01:54.232760
+logical clock: 160 | received | global time: 14:01:54.403341 | queue length: 0
+logical clock: 161 | sent: 3 | global time: 14:01:54.573836
+logical clock: 162 | internal event | global time: 14:01:54.747640
+logical clock: 163 | internal event | global time: 14:01:54.920198
+logical clock: 164 | internal event | global time: 14:01:55.091268
+logical clock: 165 | received | global time: 14:01:55.260590 | queue length: 0
+logical clock: 166 | internal event | global time: 14:01:55.430984
+logical clock: 167 | received | global time: 14:01:55.600381 | queue length: 1
+logical clock: 168 | received | global time: 14:01:55.771281 | queue length: 1
+logical clock: 169 | received | global time: 14:01:55.944435 | queue length: 0
+logical clock: 170 | received | global time: 14:01:56.115726 | queue length: 0
+logical clock: 171 | internal event | global time: 14:01:56.284996
+logical clock: 172 | internal event | global time: 14:01:56.456831
+logical clock: 173 | received | global time: 14:01:56.626897 | queue length: 0
+logical clock: 174 | sent: 3 | global time: 14:01:56.797760
+logical clock: 175 | internal event | global time: 14:01:56.967911

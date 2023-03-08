@@ -11,27 +11,25 @@ from datetime import datetime
 # server, receives messages
 def server(conn, network_queue, network_lock):
     print("server accepted connection" + str(conn)+"\n")
-    sleepVal = 0.01
 
     while True: 
         try:
-            time.sleep(sleepVal) 
             data = conn.recv(1024) 
-            print("msg received\n") 
+            # print("msg received\n") 
             dataVal = data.decode('ascii') 
-            print("msg received:", dataVal) 
+            # print("msg received:", dataVal) 
 
             # hold incoming messages from the client connection
             with network_lock:
-                network_queue.append(dataVal)
+                if dataVal:
+                    network_queue.append(dataVal)
         except KeyboardInterrupt:
             print("Caught interrupt, shutting down connection")
             conn.close()
             break 
  
-
 # initialize a client, sending messages
-def client(portValMachine, portValA, portValB, network_queue, network_lock): 
+def client(portValMachine, portValA, portValB, network_queue, network_lock, test=False, test_client_code=-1): 
     host= "127.0.0.1" 
     portA = int(portValA) 
     portB = int(portValB) 
@@ -39,6 +37,10 @@ def client(portValMachine, portValA, portValB, network_queue, network_lock):
     s_B = socket.socket(socket.AF_INET,socket.SOCK_STREAM) 
     clock_rate_sleep_val = 1.0 / random.randint(1, 6) # clock rate defined here
     logical_clock = 0
+
+    # for testing
+    if test_client_code != -1:
+        client_code = test_client_code
 
     # open log
     with network_lock:
@@ -122,6 +124,13 @@ def client(portValMachine, portValA, portValB, network_queue, network_lock):
                 log_file.close()
                 break 
 
+            if test:
+                lines = ""
+                with open('port_{}_log.txt'.format(portValMachine)) as f:
+                    lines = f.readlines()
+                    print("LINES", lines)
+                return lines
+
     except socket.error as e: 
         print("Error connecting client: %s" % e)
         log_file.close()
@@ -129,7 +138,7 @@ def client(portValMachine, portValA, portValB, network_queue, network_lock):
     log_file.close()
  
 # initialize a server machine to connect with clients
-def init_machine(config, network_queue, network_lock):
+def init_machine(config, network_queue, network_lock, test=False):
     HOST = str(config[0],)
     PORT = int(config[1])
     print("starting server | port val:", PORT)
@@ -138,6 +147,7 @@ def init_machine(config, network_queue, network_lock):
     s.bind((HOST, PORT))
     s.listen()
     
+    original_time = time.time()
     while True: 
         # always accept new connections from other clients and start a server connection between that client and server
         try:
@@ -148,7 +158,11 @@ def init_machine(config, network_queue, network_lock):
             s.close()
             break 
 
-def machine(config):
+        if test and time.time() - original_time > 1:
+            break
+    return
+
+def machine(config, test=False, client_code_list=[]):
     # get the unique process id of this thread
     config.append(os.getpid())
 
@@ -174,9 +188,13 @@ def machine(config):
     while True:
         try: 
             client_code = random.randint(1, 10)
+            client_code_list.append(client_code)
             time.sleep(0.01)
         except KeyboardInterrupt:
             print("Caught interrupt, shutting down machine")
+            break
+
+        if test and len(client_code_list) > 5:
             break
     return
 

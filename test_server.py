@@ -35,14 +35,14 @@ class TestServer(unittest.TestCase):
         self.assertTrue(len(self.network_queue) == 1)
 
     def test_network_lock_works(self):
-        init_thread = Thread(target=init_machine, args=([HOST, PORT], self.network_queue, self.network_lock, True)) 
+        init_thread = Thread(target=init_machine, args=([HOST, 200], self.network_queue, self.network_lock, True)) 
         init_thread.daemon = True # allow for threads to exit
         init_thread.start()
 
         # Network lock is working correctly
         with self.network_lock:
             s_A = socket.socket(socket.AF_INET,socket.SOCK_STREAM) 
-            s_A.connect((HOST, PORT))
+            s_A.connect((HOST, 200))
             codeVal = "1_1X"
             s_A.send(codeVal.encode('ascii'))
             s_A.close()
